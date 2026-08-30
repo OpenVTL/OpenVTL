@@ -1,0 +1,17 @@
+OpenVTL
+Copyright © 2026 Emerald Coast Technologies LLC, d/b/a OpenVTL.
+
+OpenVTL's original code (daemon, web UI, packaging, documentation)
+is licensed under the GNU Affero General Public License v3.0 —
+see LICENSE — with an additional term under AGPL §7(e) regarding
+trademarks, see TRADEMARK.md.
+
+The mhVTL emulation patch set in packaging/mhvtl/ is a derivative
+work of mhVTL and is licensed under GPL-2.0. Vendored mhVTL source
+in third_party/ retains its own license.
+
+Notices for third-party components statically linked into the
+shipped binary are in THIRD_PARTY_NOTICES.md.
+
+"OpenVTL" and the OpenVTL logo are trademarks of Emerald Coast
+Technologies LLC. Registration pending.

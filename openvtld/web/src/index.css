@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background-color: #09090b;
+  color: #e4e4e7;
+  -webkit-font-smoothing: antialiased;
+  font-family: ui-sans-serif, system-ui, "Segoe UI", sans-serif;
+}
+
+@keyframes pulse-write {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(52, 211, 153, 0.12); }
+}
+@keyframes pulse-read {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.5); }
+  50% { box-shadow: 0 0 0 5px rgba(96, 165, 250, 0.12); }
+}
+.drive-writing { animation: pulse-write 1.2s ease-in-out infinite; }
+.drive-reading { animation: pulse-read 1.2s ease-in-out infinite; }

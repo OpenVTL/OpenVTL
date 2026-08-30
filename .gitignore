@@ -1,0 +1,13 @@
+# Editor / OS noise
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Build output
+openvtld/bin/
+**/node_modules/
+openvtld/web/dist/
+
+# Release bundles — assembled by scripts/make-release.sh
+releases/

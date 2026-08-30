@@ -1,0 +1,32 @@
+# OpenVTL — DKMS configuration for the mhVTL pseudo-HBA kernel module.
+#
+# @PKGVER@ is substituted by stage-sources.sh with the mhVTL version being
+# packaged (e.g. 1.7.4), producing /usr/src/mhvtl-<ver>/dkms.conf.
+#
+# The module is built out-of-tree against the target kernel's build tree.
+# AUTOINSTALL=yes is what makes DKMS rebuild it automatically when a new
+# kernel is installed — the operational requirement this whole milestone exists
+# to satisfy.
+
+PACKAGE_NAME="mhvtl"
+PACKAGE_VERSION="@PKGVER@"
+
+BUILT_MODULE_NAME[0]="mhvtl"
+DEST_MODULE_LOCATION[0]="/extra"
+
+# mhVTL's config.h is kernel-dependent (config.sh probes KDIR). Regenerate it
+# for whichever kernel DKMS is building against, BEFORE the compile. DKMS exports
+# the target kernel version as $kernelver to build scripts; the wrapper points
+# config.sh at /lib/modules/$kernelver/build. Without this, autoinstall on a new
+# kernel would reuse a stale config.h. (dkms-prebuild.sh is staged by stage-sources.sh.)
+PRE_BUILD="dkms-prebuild.sh"
+
+# Build the module in DKMS's per-version build tree against the target kernel,
+# using upstream's kernel/Makefile. ${kernel_source_dir} resolves to
+# /lib/modules/<kver>/build for the kernel being (re)built — including new
+# kernels during autoinstall. This is the same kbuild M= invocation upstream's
+# own `all:` target performs, so upstream's obj-m / fetch selection / CFLAGS all
+# apply, while DKMS forces the correct target kernel via -C.
+MAKE[0]="make -C ${kernel_source_dir} M=${dkms_tree}/${PACKAGE_NAME}/${PACKAGE_VERSION}/build modules"
+
+AUTOINSTALL="yes"

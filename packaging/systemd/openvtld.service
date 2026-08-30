@@ -1,0 +1,26 @@
+[Unit]
+Description=OpenVTL control plane (openvtld)
+# Observes mhVTL; does not require it — the UI must come up even when the
+# data plane is broken, so the operator can see why.
+After=network-online.target mhvtl.target
+Wants=network-online.target
+# Retry restarts indefinitely (no start-rate limit): the update watchdog needs
+# systemd to keep re-running ExecStartPre after a DOA update so it can revert
+# once the crash-restart budget is spent (v0.8).
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+# Update auto-rollback backstop (v0.8): before every start attempt, revert a
+# crash-looping update to the previous binary + DB snapshot once its budget is
+# spent. `-` prefix + internal fail-open so a watchdog bug never blocks startup.
+ExecStartPre=-/usr/local/lib/openvtld/update-watchdog.sh
+ExecStart=/usr/local/bin/openvtld
+Restart=on-failure
+RestartSec=2
+# Owns targetcli/configfs (boot orchestration) — root for v0.3.
+User=root
+StateDirectory=openvtld
+
+[Install]
+WantedBy=multi-user.target

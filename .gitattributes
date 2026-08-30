@@ -1,0 +1,4 @@
+# Everything deployable targets Linux — keep LF everywhere, on every platform.
+* text=auto eol=lf
+*.pdf binary
+*.pcap binary
